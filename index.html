@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Account Mirror</title>
+<meta name="description" content="Account Mirror is a private Windows desktop tool that copies trades from one cTrader account to the owner's other cTrader accounts through the cTrader Open API.">
+<style>
+  :root {
+    --bg: #ffffff; --text: #1d2330; --muted: #5b6475; --line: #e3e6ec;
+    --accent: #1f6feb; --card: #f6f8fb;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #11151c; --text: #e6e9ef; --muted: #9aa3b2; --line: #262c37;
+      --accent: #5a9cff; --card: #171c25;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 760px; margin: 0 auto; padding: 48px 16px 64px; }
+  h1 { font-size: 2.2rem; margin: 0 0 8px; letter-spacing: -0.02em; }
+  .lead { font-size: 1.15rem; color: var(--muted); margin: 0 0 32px; }
+  h2 { font-size: 1.25rem; margin: 40px 0 12px; padding-top: 24px; border-top: 1px solid var(--line); }
+  ul { padding-left: 1.2rem; }
+  li { margin: 4px 0; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px 20px; }
+  .muted { color: var(--muted); font-size: 0.92rem; }
+  a { color: var(--accent); }
+  footer { margin-top: 56px; padding-top: 16px; border-top: 1px solid var(--line); }
+</style>
+</head>
+<body>
+<main>
+  <h1>Account Mirror</h1>
+  <p class="lead">A private Windows desktop tool that copies trades from one cTrader account to the owner's other cTrader accounts.</p>
+
+  <div class="card">
+    Account Mirror is for personal use by its developer. It is not sold, distributed or offered as a service, and it does not provide signals, investment advice or account management for anyone else.
+  </div>
+
+  <h2>What it does</h2>
+  <p>The owner chooses one of their cTrader accounts as the <strong>main</strong> account and their other accounts as <strong>followers</strong>. Whatever happens on the main account is copied onto the followers:</p>
+  <ul>
+    <li>new market positions</li>
+    <li>pending orders, including amendments and cancellations</li>
+    <li>partial closes, in proportion</li>
+    <li>Stop Loss and Take Profit changes</li>
+    <li>full closes</li>
+  </ul>
+  <p>Volume on each follower can be the same as the main, a multiple of it, or a fixed lot size.</p>
+
+  <h2>How it connects</h2>
+  <ul>
+    <li>It uses the official <a href="https://help.ctrader.com/open-api/">cTrader Open API</a> from Spotware.</li>
+    <li>The account owner signs in through cTrader's own OAuth login page and chooses which accounts to connect.</li>
+    <li>It only connects to accounts that belong to the same cTrader ID. It never accesses anyone else's accounts.</li>
+    <li>It runs locally on Windows. The OAuth redirect goes to <code>http://localhost:8080/callback</code> on the same computer.</li>
+  </ul>
+
+  <h2>Safety rules</h2>
+  <ul>
+    <li>Copying is off by default. The app first shows what it would do, and copying has to be switched on by hand.</li>
+    <li>It asks for confirmation before copying onto a live account.</li>
+    <li>It never trades on the main account.</li>
+    <li>It only changes orders and positions it created itself, each marked with the label <code>AccountMirror</code>. Nothing else on a follower account is touched.</li>
+    <li>If the main account can't be read, for example because the connection drops, it does nothing. It doesn't close copies.</li>
+  </ul>
+
+  <h2>Privacy and data</h2>
+  <ul>
+    <li>There are no servers. All data stays on the owner's computer.</li>
+    <li>The Open API Client Secret and access tokens are stored encrypted with Windows DPAPI, readable only by the owner's Windows user.</li>
+    <li>No account data, trades or credentials are sent anywhere except to cTrader's Open API.</li>
+  </ul>
+
+  <footer class="muted">
+    Account Mirror is an independent tool and is not affiliated with or endorsed by Spotware Systems Ltd. cTrader is a trademark of Spotware Systems Ltd.
+  </footer>
+</main>
+</body>
+</html>
